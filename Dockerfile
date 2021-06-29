@@ -25,18 +25,18 @@ RUN pip3 install --upgrade https://github.com/myelintek/lib-mlsteam/releases/dow
 ADD src /mlsteam/lab
 ADD bash.bashrc /etc/bash.bashrc
 
-RUN git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /opt/kaldi && \
-    cd /opt/kaldi/tools && \
+RUN git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /mlsteam/lab/kaldi && \
+    cd /mlsteam/lab/kaldi/tools && \
     ./extras/install_mkl.sh && \
     make -j $(nproc) && \
-    cd /opt/kaldi/src && \
+    cd /mlsteam/lab/kaldi/src && \
     ./configure --shared --use-cuda && \
     make depend -j $(nproc) && \
     make -j $(nproc) && \
-    find /opt/kaldi  -type f \( -name "*.o" -o -name "*.la" -o -name "*.a" \) -exec rm {} \; && \
-    find /opt/intel -type f -name "*.a" -exec rm {} \; && \
-    find /opt/intel -type f -regex '.*\(_mc.?\|_mic\|_thread\|_ilp64\)\.so' -exec rm {} \; && \
-    rm -rf /opt/kaldi/.git
+    find /mlsteam/lab/kaldi  -type f \( -name "*.o" -o -name "*.la" -o -name "*.a" \) -exec rm {} \; && \
+    find /mlsteam/lab/intel -type f -name "*.a" -exec rm {} \; && \
+    find /mlsteam/lab/intel -type f -regex '.*\(_mc.?\|_mic\|_thread\|_ilp64\)\.so' -exec rm {} \; && \
+    rm -rf /mlsteam/lab/kaldi/.git
 
 RUN rm -rf /usr/lib/x86_64-linux-gnu/libcuda.so /usr/lib/x86_64-linux-gnu/libcuda.so.1 /tmp/*
 
