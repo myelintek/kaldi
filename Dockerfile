@@ -25,8 +25,19 @@ RUN pip3 install --upgrade https://github.com/myelintek/lib-mlsteam/releases/dow
 ADD src /mlsteam/lab
 ADD bash.bashrc /etc/bash.bashrc
 
-RUN cd /mlsteam/lab && make && \
-    jupyter nbconvert --to notebook --inplace --execute entry.ipynb
+RUN cd /mlsteam/lab && \
+    git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /kaldi && \
+    cd /kaldi/tools && \
+    ./extras/install_mkl.sh && \
+    make -j $(nproc) && \
+    cd /kaldi/src && \
+    ./configure --shared --use-cuda && \
+    make depend -j $(nproc) && \
+    make -j $(nproc) && \
+    find /kaldi  -type f \( -name "*.o" -o -name "*.la" -o -name "*.a" \) -exec rm {} \; && \
+    find /intel -type f -name "*.a" -exec rm {} \; && \
+    find /intel -type f -regex '.*\(_mc.?\|_mic\|_thread\|_ilp64\)\.so' -exec rm {} \; && \
+    rm -rf /kaldi/.git
 
 RUN rm -rf /usr/lib/x86_64-linux-gnu/libcuda.so /usr/lib/x86_64-linux-gnu/libcuda.so.1 /tmp/*
 
