@@ -9,6 +9,7 @@ sox
 libtool
 git
 subversion
+python3-pip
 python2.7
 python3
 zlib1g-dev
