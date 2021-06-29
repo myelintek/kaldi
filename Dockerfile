@@ -25,7 +25,7 @@ RUN pip3 install --upgrade https://github.com/myelintek/lib-mlsteam/releases/dow
 ADD src /mlsteam/lab
 ADD bash.bashrc /etc/bash.bashrc
 
-RUN cd /mlsteam/lab && make && \
+RUN cd /mlsteam/lab && \
     jupyter nbconvert --to notebook --inplace --execute entry.ipynb
 
 RUN rm -rf /usr/lib/x86_64-linux-gnu/libcuda.so /usr/lib/x86_64-linux-gnu/libcuda.so.1 /tmp/*
