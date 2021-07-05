@@ -27,12 +27,12 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Build Kaldi Template
-        run: docker build -t cr.myelintek.com/myelintek/mlsteam:latest .
+        run: docker build -t cr.myelintek.com/myelintek/kaldi:latest .
 
       # Runs a set of commands using the runners shell
       - name: push to cr.myelintek.com
         run: |
           docker login -u 'robot$github' -p ${{ secrets.CR_TOKEN }} cr.myelintek.com
-          docker push cr.myelintek.com/myelintek/mlsteam:latest
+          docker push cr.myelintek.com/myelintek/kaldi:latest
           docker logout cr.myelintek.com
-          docker rmi cr.myelintek.com/myelintek/mlsteam:latest
+          docker rmi cr.myelintek.com/myelintek/kaldi:latest
