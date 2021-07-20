@@ -38,6 +38,8 @@ RUN git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /kaldi && \
     find /../../opt/intel -type f -regex '.*\(_mc.?\|_mic\|_thread\|_ilp64\)\.so' -exec rm {} \; && \
     rm -rf /kaldi/.git
 
+ADD kaldi /mlsteam/lab
+
 RUN mc config host add ms3 https://s3.myelintek.com minioadmin 83536253  && \ 
 	mc mirror --overwrite ms3/kaldi-for-dummies/ /mlsteam/data/ && \
 	cd /mlsteam/lab && \
