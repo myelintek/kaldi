@@ -41,7 +41,7 @@ RUN git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /kaldi && \
 RUN mc config host add ms3 https://s3.myelintek.com minioadmin 83536253  && \ 
 	mc mirror --overwrite ms3/kaldi-for-dummies/ /mlsteam/data/ && \
 	cd /mlsteam/lab && \
-    jupyter nbconvert --to notebook --inplace --execute entry.ipynb && \
+    jupyter nbconvert --to notebook --inplace --allow-errors --execute entry.ipynb && \
 	rm -rf /mlsteam/data/*
 
 RUN rm -rf /usr/lib/x86_64-linux-gnu/libcuda.so /usr/lib/x86_64-linux-gnu/libcuda.so.1 /tmp/*
