@@ -13,6 +13,7 @@ ADD clean-layer.sh requirements.txt requirements.system install-sshd.sh set_term
 RUN sed -i 's/archive.ubuntu.com/tw.archive.ubuntu.com/g' /etc/apt/sources.list && \
     mkdir -p /mlsteam/data && \
     mkdir -p /mlsteam/lab && \
+    mkdir -p /mlsteam/lab/kaldi && \
     apt-get update && \
     xargs apt-get install -y < /tmp/requirements.system && \
     pip3 install --no-cache-dir -r /tmp/requirements.txt && \
@@ -39,7 +40,6 @@ RUN git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /opt/kaldi && \
     rm -rf /opt/kaldi/.git
 
 ADD /opt/kaldi /mlsteam/lab/kaldi
-
 ADD kaldi-for-dummies /mlsteam/data/
 
 RUN cd /mlsteam/lab && \
