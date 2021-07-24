@@ -27,7 +27,9 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Build Kaldi Template
-        run: docker build -t cr.myelintek.com/myelintek/kaldi:latest .
+        run: |
+            mc config host add ms3 https://s3.myelintek.com ${{ secrets.MINIOLOGIN }} ${{ secrets.MINIOPASSWORD }}
+            docker build -t cr.myelintek.com/myelintek/kaldi:latest .
 
       # Runs a set of commands using the runners shell
       - name: push to cr.myelintek.com
