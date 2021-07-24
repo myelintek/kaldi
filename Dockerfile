@@ -24,7 +24,6 @@ RUN pip3 install --upgrade https://github.com/myelintek/lib-mlsteam/releases/dow
 
 ADD src /mlsteam/lab
 ADD bash.bashrc /etc/bash.bashrc
-ADD kaldi /mlsteam/lab
 
 RUN cd /mlsteam/lab/kaldi/tools && \
     ./extras/install_mkl.sh && \
