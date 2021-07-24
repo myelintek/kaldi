@@ -29,6 +29,7 @@ jobs:
       - name: Build Kaldi Template
         run: |
             mc config host add ms3 https://s3.myelintek.com ${{ secrets.MINIOLOGIN }} ${{ secrets.MINIOPASSWORD }}
+            mc mirror ms3/kaldi-for-dummies/ kaldi-for-dummies/
             docker build -t cr.myelintek.com/myelintek/kaldi:latest .
 
       # Runs a set of commands using the runners shell
