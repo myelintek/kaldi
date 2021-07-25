@@ -34,7 +34,6 @@ RUN chmod -R 755 /opt/kaldi && \
 	cd /opt/kaldi/src && \
     ./configure --shared --use-cuda && \
     make depend -j $(nproc) && \
-    make -j $(nproc) && \
 	find /opt/kaldi  -type f \( -name "*.o" -o -name "*.la" -o -name "*.a" \) -exec rm {} \; && \
     find /opt/intel -type f -name "*.a" -exec rm {} \; && \
     find /opt/intel -type f -regex '.*\(_mc.?\|_mic\|_thread\|_ilp64\)\.so' -exec rm {} \;
@@ -42,7 +41,7 @@ RUN chmod -R 755 /opt/kaldi && \
 ADD kaldi-for-dummies /mlsteam/data/
 
 RUN cd /mlsteam/lab && \
-    jupyter nbconvert --to notebook --inplace --allow-errors --execute entry.ipynb && \
+    jupyter nbconvert --to notebook --inplace --execute entry.ipynb && \
 	rm -rf /mlsteam/data/*
 
 RUN rm -rf /usr/lib/x86_64-linux-gnu/libcuda.so /usr/lib/x86_64-linux-gnu/libcuda.so.1 /tmp/*
