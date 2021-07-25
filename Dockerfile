@@ -27,7 +27,7 @@ ADD src /mlsteam/lab
 ADD bash.bashrc /etc/bash.bashrc
 
 RUN cp -R kaldi /opt && \
-	ls /opt/kaldi
+    cd /opt/kaldi/
 
 ADD kaldi-for-dummies /mlsteam/data/
 
