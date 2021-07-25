@@ -28,6 +28,7 @@ ADD bash.bashrc /etc/bash.bashrc
 ADD kaldi /opt/kaldi
 
 RUN cd /opt/kaldi/tools && \
+	chmod +x ./extras/install_mkl.sh && \
     ./extras/install_mkl.sh && \
     make -j $(nproc) && \
     cd /opt/kaldi/src && \
