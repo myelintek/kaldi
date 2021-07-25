@@ -38,7 +38,7 @@ RUN chmod -R 755 /opt/kaldi && \
     find /opt/kaldi  -type f \( -name "*.o" -o -name "*.la" -o -name "*.a" \) -exec rm {} \; && \
     find /opt/intel -type f -name "*.a" -exec rm {} \; && \
     find /opt/intel -type f -regex '.*\(_mc.?\|_mic\|_thread\|_ilp64\)\.so' -exec rm {} \; && \
-    rm -rf /opt/kaldi/.git && \
+    rm -rf /opt/kaldi/.git
 
 ADD kaldi-for-dummies /mlsteam/data/
 
