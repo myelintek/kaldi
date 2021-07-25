@@ -8,7 +8,7 @@ ENV VERSION ${VERSION:-dev}
 
 WORKDIR /mlsteam/lab
 
-ADD clean-layer.sh requirements.txt requirements.system install-sshd.sh set_terminal_dark.sh kaldi/ /tmp/
+ADD clean-layer.sh requirements.txt requirements.system install-sshd.sh set_terminal_dark.sh /tmp/
 
 RUN sed -i 's/archive.ubuntu.com/tw.archive.ubuntu.com/g' /etc/apt/sources.list && \
     mkdir -p /mlsteam/data && \
@@ -26,7 +26,7 @@ RUN pip3 install --upgrade https://github.com/myelintek/lib-mlsteam/releases/dow
 ADD src /mlsteam/lab
 ADD bash.bashrc /etc/bash.bashrc
 
-RUN cp -R /tmp/kaldi /opt/ && \
+RUN cp -R kaldi /opt/ && \
     cd /opt/kaldi/tools && \
     ./extras/install_mkl.sh && \
     make -j $(nproc) && \
