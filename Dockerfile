@@ -29,8 +29,7 @@ ADD kaldi /opt/kaldi
 
 RUN chmod -R 755 /opt/kaldi && \
 	cd /opt/kaldi/tools && \
-    ./extras/install_mkl.sh && \
-
+    ./extras/install_mkl.sh
 
 ADD kaldi-for-dummies /mlsteam/data/
 
