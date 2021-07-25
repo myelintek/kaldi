@@ -25,21 +25,20 @@ RUN pip3 install --upgrade https://github.com/myelintek/lib-mlsteam/releases/dow
 
 ADD src /mlsteam/lab
 ADD bash.bashrc /etc/bash.bashrc
-ADD kaldi-asr /opt/kaldi-asr
+ADD kaldi /opt/kaldi
 
-RUN chmod 755 /opt/kaldi-asr && \
-	cd /opt/kaldi-asr/tools && \
+RUN cd /opt/kaldi/tools && \
     ./extras/install_mkl.sh && \
     make -j $(nproc) && \
-    cd /opt/kaldi-asr/src && \
+    cd /opt/kaldi/src && \
     ./configure --shared --use-cuda && \
     make depend -j $(nproc) && \
     make -j $(nproc) && \
-    find /opt/kaldi-asr  -type f \( -name "*.o" -o -name "*.la" -o -name "*.a" \) -exec rm {} \; && \
+    find /opt/kaldi  -type f \( -name "*.o" -o -name "*.la" -o -name "*.a" \) -exec rm {} \; && \
     find /opt/intel -type f -name "*.a" -exec rm {} \; && \
     find /opt/intel -type f -regex '.*\(_mc.?\|_mic\|_thread\|_ilp64\)\.so' -exec rm {} \; && \
-    rm -rf /opt/kaldi-asr/.git && \
-	cp -R /opt/kaldi-asr /mlsteam/lab/
+    rm -rf /opt/kaldi/.git && \
+	cp -R /opt/kaldi /mlsteam/lab/
 
 ADD kaldi-for-dummies /mlsteam/data/
 
