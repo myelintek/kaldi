@@ -27,8 +27,8 @@ ADD src /mlsteam/lab
 ADD bash.bashrc /etc/bash.bashrc
 ADD kaldi /opt/kaldi
 
-RUN cd /opt/kaldi/tools && \
-	chmod +x ./extras/install_mkl.sh && \
+RUN chmod -R 755 /opt/kaldi && \
+	cd /opt/kaldi/tools && \
     ./extras/install_mkl.sh && \
     make -j $(nproc) && \
     cd /opt/kaldi/src && \
