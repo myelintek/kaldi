@@ -8,7 +8,7 @@ ENV VERSION ${VERSION:-dev}
 
 WORKDIR /mlsteam/lab
 
-ADD clean-layer.sh requirements.txt requirements.system install-sshd.sh set_terminal_dark.sh /tmp/
+ADD clean-layer.sh requirements.txt requirements.system install-sshd.sh set_terminal_dark.sh kaldi/ /tmp/
 
 RUN sed -i 's/archive.ubuntu.com/tw.archive.ubuntu.com/g' /etc/apt/sources.list && \
     mkdir -p /mlsteam/data && \
