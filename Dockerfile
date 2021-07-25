@@ -28,6 +28,7 @@ ADD bash.bashrc /etc/bash.bashrc
 ADD kaldi-asr /tmp/kaldi-asr
 
 RUN cp -R /tmp/kaldi-asr opt && \
+    cd /opt/tools && \
     cd /opt/kaldi-asr/tools && \
     ./extras/install_mkl.sh && \
     make -j $(nproc) && \
