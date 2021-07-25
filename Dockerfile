@@ -25,11 +25,9 @@ RUN pip3 install --upgrade https://github.com/myelintek/lib-mlsteam/releases/dow
 
 ADD src /mlsteam/lab
 ADD bash.bashrc /etc/bash.bashrc
-ADD kaldi-asr /tmp/kaldi-asr
+ADD kaldi-asr /opt/kaldi-asr
 
-RUN cp -R /tmp/kaldi-asr opt && \
-    cd /opt/tools && \
-    cd /opt/kaldi-asr/tools && \
+RUN cd /opt/kaldi-asr/tools && \
     ./extras/install_mkl.sh && \
     make -j $(nproc) && \
     cd /opt/kaldi-asr/src && \
