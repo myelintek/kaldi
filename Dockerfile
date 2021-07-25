@@ -35,6 +35,7 @@ RUN chmod -R 755 /opt/kaldi && \
 RUN cd /opt/kaldi/src && \
     ./configure --shared --use-cuda && \
     make depend -j $(nproc)
+    make -j $(nproc)
 
 ADD kaldi-for-dummies /mlsteam/data/
 
