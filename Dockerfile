@@ -42,7 +42,8 @@ ADD kaldi-for-dummies /mlsteam/data/
 
 RUN cd /mlsteam/lab && \
     jupyter nbconvert --to notebook --inplace --allow-errors --execute entry.ipynb && \
-	rm -rf /mlsteam/data/*
+	rm -rf /mlsteam/data/* && \
+	rm -rf /mlsteam/lab/kaldi
 
 RUN rm -rf /usr/lib/x86_64-linux-gnu/libcuda.so /usr/lib/x86_64-linux-gnu/libcuda.so.1 /tmp/*
 
