@@ -1,27 +1,30 @@
 FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        g++ \
-        make \
-        automake \
-        autoconf \
-        bzip2 \
-        unzip \
-        wget \
-        sox \
-        libtool \
-        git \
-        subversion \
-        python2.7 \
-        python3 \
-        zlib1g-dev \
-        gfortran \
-        ca-certificates \
-        patch \
-        ffmpeg \
-	vim && \
-    rm -rf /var/lib/apt/lists/*
+ENV SHELL /bin/bash
+ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64
+ENV DEBIAN_FRONTEND=noninteractive
+ARG VERSION
+ENV VERSION ${VERSION:-dev}
+
+WORKDIR /mlsteam/lab
+
+ADD clean-layer.sh requirements.txt requirements.system install-sshd.sh set_terminal_dark.sh /tmp/
+
+ADD clean-layer.sh requirements.txt requirements.system install-sshd.sh set_terminal_dark.sh /tmp/
+
+RUN sed -i 's/archive.ubuntu.com/tw.archive.ubuntu.com/g' /etc/apt/sources.list && \
+    mkdir -p /mlsteam/data && \
+    mkdir -p /mlsteam/lab && \
+    mkdir -p /mlsteam/lab/kaldi && \
+    apt-get update && \
+    xargs apt-get install -y < /tmp/requirements.system && \
+    pip3 install --no-cache-dir -r /tmp/requirements.txt && \
+    bash /tmp/install-sshd.sh && \
+    bash /tmp/set_terminal_dark.sh && \
+    bash /tmp/clean-layer.sh && \
+	rm -rf /var/lib/apt/lists/*
+	
+RUN pip3 install --upgrade https://github.com/myelintek/lib-mlsteam/releases/download/v0.3/mlsteam-0.3.0-py3-none-any.whl
 
 RUN ln -s /usr/bin/python2.7 /usr/bin/python
 
