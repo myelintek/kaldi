@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
+FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
 
 ENV SHELL /bin/bash
 ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64
@@ -20,6 +20,8 @@ RUN sed -i 's/archive.ubuntu.com/tw.archive.ubuntu.com/g' /etc/apt/sources.list 
     bash /tmp/install-sshd.sh && \
     bash /tmp/set_terminal_dark.sh && \
     bash /tmp/clean-layer.sh
+
+RUN ln -s /usr/bin/python2.7 /usr/bin/python
 
 RUN pip3 install --upgrade https://github.com/myelintek/lib-mlsteam/releases/download/v0.3/mlsteam-0.3.0-py3-none-any.whl
 
