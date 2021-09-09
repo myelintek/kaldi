@@ -28,6 +28,9 @@ RUN pip3 install --upgrade https://github.com/myelintek/lib-mlsteam/releases/dow
 
 RUN ln -s /usr/bin/python2.7 /usr/bin/python
 
+ADD src /mlsteam/lab
+ADD bash.bashrc /etc/bash.bashrc
+
 RUN git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /opt/kaldi && \
     cd /opt/kaldi/tools && \
     ./extras/install_mkl.sh && \
@@ -41,5 +44,5 @@ RUN git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /opt/kaldi && \
     find /opt/intel -type f -regex '.*\(_mc.?\|_mic\|_thread\|_ilp64\)\.so' -exec rm {} \; && \
     rm -rf /opt/kaldi/.git
 
-WORKDIR /opt/kaldi/
-
+ADD /opt/kaldi /mlsteam/lab/kaldi
+ADD kaldi-for-dummies /mlsteam/data/
