@@ -32,8 +32,8 @@ RUN chmod -R 755 /opt/kaldi && \
     ./extras/install_mkl.sh && \
     make -j 16 && \
 	cd /opt/kaldi/src && \
-    ./configure --shared && \
-    make depend && \
+    ./configure --shared --use-cuda && \
+    make depend -j 16 && \
 	make -j 16 && \
 	find /opt/kaldi  -type f \( -name "*.o" -o -name "*.la" -o -name "*.a" \) -exec rm {} \; && \
     find /opt/intel -type f -name "*.a" -exec rm {} \; && \
