@@ -30,11 +30,11 @@ ADD kaldi /opt/kaldi
 RUN chmod -R 755 /opt/kaldi && \
 	cd /opt/kaldi/tools && \
     ./extras/install_mkl.sh && \
-    make && \
+    make -j 16 && \
 	cd /opt/kaldi/src && \
     ./configure --shared && \
     make depend && \
-	make && \
+	make -j 16 && \
 	find /opt/kaldi  -type f \( -name "*.o" -o -name "*.la" -o -name "*.a" \) -exec rm {} \; && \
     find /opt/intel -type f -name "*.a" -exec rm {} \; && \
     find /opt/intel -type f -regex '.*\(_mc.?\|_mic\|_thread\|_ilp64\)\.so' -exec rm {} \;
