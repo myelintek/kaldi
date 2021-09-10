@@ -10,8 +10,6 @@ WORKDIR /mlsteam/lab
 
 ADD clean-layer.sh requirements.txt requirements.system install-sshd.sh set_terminal_dark.sh /tmp/
 
-ADD clean-layer.sh requirements.txt requirements.system install-sshd.sh set_terminal_dark.sh /tmp/
-
 RUN sed -i 's/archive.ubuntu.com/tw.archive.ubuntu.com/g' /etc/apt/sources.list && \
     mkdir -p /mlsteam/data && \
     mkdir -p /mlsteam/lab && \
@@ -42,7 +40,11 @@ RUN git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /opt/kaldi && \
     find /opt/kaldi  -type f \( -name "*.o" -o -name "*.la" -o -name "*.a" \) -exec rm {} \; && \
     find /opt/intel -type f -name "*.a" -exec rm {} \; && \
     find /opt/intel -type f -regex '.*\(_mc.?\|_mic\|_thread\|_ilp64\)\.so' -exec rm {} \; && \
-    rm -rf /opt/kaldi/.git
+    rm -rf /opt/kaldi/.git &&\
+	mv /opt/kaldi /mlsteam/data
 
-ADD /opt/kaldi /mlsteam/lab/kaldi
 ADD kaldi-for-dummies /mlsteam/data/
+
+RUN cd /mlsteam/lab
+
+RUN rm -rf /usr/lib/x86_64-linux-gnu/libcuda.so /usr/lib/x86_64-linux-gnu/libcuda.so.1 /tmp/*
