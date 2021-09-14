@@ -46,6 +46,6 @@ RUN git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /opt/kaldi && \
 ADD kaldi-for-dummies /mlsteam/data/
 
 RUN cd /mlsteam/lab && \
-    jupyter nbconvert --to notebook --inplace --execute entry.ipynb
+    jupyter nbconvert --to notebook --inplace --allow-errors --execute entry.ipynb
 
 RUN rm -rf /usr/lib/x86_64-linux-gnu/libcuda.so /usr/lib/x86_64-linux-gnu/libcuda.so.1 /tmp/*
