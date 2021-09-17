@@ -12,38 +12,38 @@ ADD clean-layer.sh requirements.txt requirements.system install-sshd.sh set_term
 
 RUN sed -i 's/archive.ubuntu.com/tw.archive.ubuntu.com/g' /etc/apt/sources.list && \
     mkdir -p /mlsteam/data && \
+    mkdir -p /mlsteam/data/kaldi-for-dummies && \
     mkdir -p /mlsteam/lab && \
-    mkdir -p /mlsteam/lab/kaldi && \
     apt-get update && \
     xargs apt-get install -y < /tmp/requirements.system && \
     pip3 install --no-cache-dir -r /tmp/requirements.txt && \
     bash /tmp/install-sshd.sh && \
     bash /tmp/set_terminal_dark.sh && \
-    bash /tmp/clean-layer.sh
-
+    bash /tmp/clean-layer.sh && \
+	rm -rf /var/lib/apt/lists/*
+	
 RUN pip3 install --upgrade https://github.com/myelintek/lib-mlsteam/releases/download/v0.3/mlsteam-0.3.0-py3-none-any.whl
+RUN ln -s /usr/bin/python2.7 /usr/bin/python
 
 ADD src /mlsteam/lab
+ADD kaldi-for-dummies /mlsteam/data/kaldi-for-dummies
 ADD bash.bashrc /etc/bash.bashrc
-ADD kaldi /opt/kaldi
 
-RUN chmod -R 755 /opt/kaldi && \
-	cd /opt/kaldi/tools && \
+RUN git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /opt/kaldi && \
+    cd /opt/kaldi/tools && \
     ./extras/install_mkl.sh && \
     make -j $(nproc) && \
-	cd /opt/kaldi/src && \
+    cd /opt/kaldi/src && \
     ./configure --shared --use-cuda && \
     make depend -j $(nproc) && \
-	find /opt/kaldi  -type f \( -name "*.o" -o -name "*.la" -o -name "*.a" \) -exec rm {} \; && \
+    make -j $(nproc) && \
+    find /opt/kaldi  -type f \( -name "*.o" -o -name "*.la" -o -name "*.a" \) -exec rm {} \; && \
     find /opt/intel -type f -name "*.a" -exec rm {} \; && \
-    find /opt/intel -type f -regex '.*\(_mc.?\|_mic\|_thread\|_ilp64\)\.so' -exec rm {} \;
-
-ADD kaldi-for-dummies /mlsteam/data/
+    find /opt/intel -type f -regex '.*\(_mc.?\|_mic\|_thread\|_ilp64\)\.so' -exec rm {} \; && \
+    rm -rf /opt/kaldi/.git &&\
+	mv /opt/kaldi /mlsteam/data
 
 RUN cd /mlsteam/lab && \
-    jupyter nbconvert --to notebook --inplace --allow-errors --execute entry.ipynb && \
-	rm -rf /mlsteam/data/* && \
-	rm -rf /mlsteam/lab/kaldi
+    jupyter nbconvert --to notebook --inplace --allow-errors --execute entry.ipynb
 
 RUN rm -rf /usr/lib/x86_64-linux-gnu/libcuda.so /usr/lib/x86_64-linux-gnu/libcuda.so.1 /tmp/*
-
